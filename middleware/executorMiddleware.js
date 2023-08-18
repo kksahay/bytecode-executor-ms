@@ -1,4 +1,4 @@
-import { compiler, downloadFiles } from '../helper/executorHelper.js'
+import { compiler, downloadFiles, cleanUp } from '../helper/executorHelper.js'
 
 export const getTestCases = async (req, res, next) => {
     const { id } = req.params
@@ -6,6 +6,7 @@ export const getTestCases = async (req, res, next) => {
     const pid = parseInt(id)
 
     try {
+        await cleanUp()
         await downloadFiles(pid, tests)
         req.download_success = true
     } catch (error) {
@@ -21,11 +22,10 @@ export const codeRunner = async (req, res, next) => {
             message: "Cannot download testcases"
         });
     }
-    
+
     try {
         const buffer = req.files.file.data;
         await compiler(buffer, tests)
-        res.send({ ok: true })
     } catch (error) {
         console.error(error)
         res.status(500).send({ message: "Error processing the file" })

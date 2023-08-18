@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/submit/:id', solutionChecker)
+app.post('/submit/:id', getTestCases, codeRunner, solutionChecker)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)

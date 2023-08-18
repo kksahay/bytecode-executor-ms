@@ -58,3 +58,10 @@ export const compiler = async (buffer, testcases) => {
         }
     }
 }
+
+export const cleanUp = async () => {
+    const { stderr } = await execAsync("rm -rf input output solution-output solution solution.cpp")
+    if (stderr) {
+        throw new Error(stderr)
+    }
+}
