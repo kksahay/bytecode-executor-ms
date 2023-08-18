@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebaseConfig.js';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import fs from 'fs'
+import { exec } from 'child_process'
 
 export const downloadFiles = async (id, tests) => {
     fs.mkdir('input', { recursive: true }, (err) => {
@@ -10,6 +11,7 @@ export const downloadFiles = async (id, tests) => {
     fs.mkdir('output', { recursive: true }, (err) => {
         if (err) throw err;
     })
+
     const folderName = process.env.foldername
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
@@ -37,5 +39,29 @@ export const downloadFiles = async (id, tests) => {
         } catch (error) {
             console.error('Error:', error);
         }
+    }
+}
+
+export const compiler = async (buffer, tests) => {
+    fs.mkdir('solution-output', { recursive: true }, (err) => {
+        if (err) throw err;
+    })
+    try {
+        const solution = buffer.toString('utf-8')
+        fs.writeFileSync('solution.cpp', solution)
+        exec("g++ -o solution solution.cpp", (error, stderr) => {
+            if (error) {
+                return stderr;
+            }
+        })
+        for (let i = 1; i <= tests; ++i) {
+            exec(`./solution > solution-output/output${i}.txt`, (error, stderr) => {
+                if (error) {
+                    return stderr;
+                }
+            })
+        }
+    } catch (error) {
+        console.error("Error running code")
     }
 }
