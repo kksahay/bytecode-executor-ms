@@ -51,8 +51,12 @@ export const compiler = async (buffer, testcases) => {
     if (stderr) {
         throw new Error(stderr)
     }
+    const resourceLimit = {
+        timeout: 1000,
+        maxBuffer: 4 * 1024 * 1024 * 1024
+    }
     for (let i = 1; i <= testcases; ++i) {
-        const { stderr } = await execAsync(`./solution < input/input${i}.txt > solution-output/output${i}.txt`)
+        const { stderr } = await execAsync(`./solution < input/input${i}.txt > solution-output/output${i}.txt`, resourceLimit)
         if (stderr) {
             throw new Error(stderr)
         }
