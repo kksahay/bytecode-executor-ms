@@ -1,7 +1,10 @@
 import fs from 'fs/promises'
 
 const solutionChecker = async (req, res) => {
-    const resultArr = []
+    const result = {
+        passed: 0,
+        failed: 0
+    } 
     try {
         const files = await fs.readdir("./solution-output");
         for (const file of files) {
@@ -9,14 +12,14 @@ const solutionChecker = async (req, res) => {
             const actualOutput = await fs.readFile(`./output/${file}`, 'utf-8')
 
             if(solOutput === actualOutput) {
-                resultArr.push(1)
+                result.passed++;
             } else {
-                resultArr.push(0)
+                result.failed++;
             }
         }
     } catch (err) {
         console.error(err)
     }
-    res.send(resultArr)
+    res.send(result)
 }
 export default solutionChecker
