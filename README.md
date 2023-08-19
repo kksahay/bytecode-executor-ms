@@ -29,7 +29,20 @@ Bytecode Executor MS is an online judge application that allows you to run C++ c
     ```bash
     npm install
 3. Configure API Keys
-4. ```bash
+    ```sh
+    PORT=
+    apiKey=
+    authDomain=
+    projectId=
+    storageBucket=
+    messagingSenderId=
+    appId=
+    measurementId=
+    foldername=
+    ```
+
+4. Run main.js
+    ```bash
     node main.js
 
 ### Docker
