@@ -1,34 +1,39 @@
-import { compiler, downloadFiles, cleanUp } from '../helper/executorHelper.js'
+import { compiler, downloadFiles, cleanUp, runner } from '../helper/executorHelper.js'
+
+export const codeCompiler = async (req, res, next) => {
+    const buffer = req.files.file.data;
+    try {
+        await cleanUp()
+        await compiler(buffer)
+    } catch (error) {
+        return res.status(400).send({
+            message: "Compilation Error"
+        })
+    }
+    next()
+}
 
 export const getTestCases = async (req, res, next) => {
     const { id } = req.params
     const tests = req.body.tests
-    const pid = parseInt(id)
-
     try {
-        await cleanUp()
-        await downloadFiles(pid, tests)
-        req.download_success = true
+        await downloadFiles(id, tests)
     } catch (error) {
-        return res.send(error)
+        return res.status(400).send({
+            message: "Server Unavailable"
+        })
     }
     next()
 }
-export const codeRunner = async (req, res, next) => {
-    const download_success = req.download_success;
-    const tests = req.body.tests
-    if (!download_success) {
-        return res.status(500).send({
-            message: "Cannot download testcases"
-        });
-    }
 
+export const codeRunner = async (req, res, next) => {
+    const tests = parseInt(req.body.tests)
     try {
-        const buffer = req.files.file.data;
-        await compiler(buffer, tests)
+        await runner(tests)
     } catch (error) {
-        console.error(error)
-        res.status(500).send({ message: "Error processing the file" })
+        return res.status(400).send({
+            message: "Time Limit Exceeded"
+        })
     }
     next()
 }

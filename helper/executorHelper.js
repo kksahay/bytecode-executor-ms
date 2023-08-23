@@ -40,20 +40,21 @@ export const downloadFiles = async (id, tests) => {
         fs.writeFileSync(`output/output${i}.txt`, outputText);
     }
 }
-
-export const compiler = async (buffer, testcases) => {
-    fs.mkdir('solution-output', { recursive: true }, (err) => {
-        if (err) throw err;
-    })
+export const compiler = async (buffer) => {
     const solution = buffer.toString('utf-8')
     fs.writeFileSync('solution.cpp', solution)
     const { stderr } = await execAsync("g++ -o solution solution.cpp")
     if (stderr) {
         throw new Error(stderr)
     }
+}
+export const runner = async (testcases) => {
+    fs.mkdir('solution-output', { recursive: true }, (err) => {
+        if (err) throw err;
+    })
     const resourceLimit = {
         timeout: 1000,
-        maxBuffer: 4 * 1024 * 1024 * 1024
+        maxBuffer: 512 * 1024 * 1024
     }
     for (let i = 1; i <= testcases; ++i) {
         const { stderr } = await execAsync(`./solution < input/input${i}.txt > solution-output/output${i}.txt`, resourceLimit)

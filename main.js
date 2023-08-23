@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import { getTestCases, codeRunner } from './middleware/executorMiddleware.js'
+import { getTestCases, codeRunner, codeCompiler } from './middleware/executorMiddleware.js'
 import solutionChecker from './controller/executorController.js'
 import fileUpload from 'express-fileupload'
 dotenv.config()
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/submit/:id', getTestCases, codeRunner, solutionChecker)
+app.post('/submit/:id', codeCompiler, getTestCases, codeRunner, solutionChecker)
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
