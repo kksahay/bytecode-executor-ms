@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bytecode-executor-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: bytecode-executor-ms
+  ports:
+    - port: 80
+      targetPort: 8000

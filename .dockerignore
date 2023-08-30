@@ -9,3 +9,4 @@ Dockerfile
 *.swo
 *.zip
 *.tar
+*.env

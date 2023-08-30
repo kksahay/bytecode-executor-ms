@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bytecode-executor-ms
+  namespace: default
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: bytecode-executor-ms
+  template:
+    metadata:
+      labels:
+        app: bytecode-executor-ms
+    spec:
+      containers:
+      - name: bytecode-executor-ms
+        image: kunalsahay/bytecode-executor
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: my-config
