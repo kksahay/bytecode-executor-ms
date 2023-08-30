@@ -1,3 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  PORT: $PORT
+  apiKey: $apiKey
+  authDomain: $authDomain
+  projectId: $projectId
+  storageBucket: $storageBucket
+  messagingSenderId: $messagingSenderId
+  appId: $appId
+  measurementId: $measurementId
+  foldername: $foldername
+
+---
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
