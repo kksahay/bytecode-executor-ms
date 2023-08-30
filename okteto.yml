@@ -1,3 +1,0 @@
-name: bytecode-executor-ms
-image: kunalsahay/bytecode-executor
-command: ["npm", "start"]
