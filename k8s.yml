@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bytecode-executor-ms
-  namespace: default
 spec:
   replicas: 4
   selector:
