@@ -1,0 +1,25 @@
+name: bytecode-executor-ms
+image: kunalsahay/bytecode-executor
+container: bytecode-executor-ms
+command: ["npm", "start"]
+ports:
+  - 8000:8000
+variables:
+  - name: PORT
+    value: ${PORT}
+  - name: apiKey
+    value: ${API_KEY}
+  - name: authDomain
+    value: ${AUTH_DOMAIN}
+  - name: projectId
+    value: ${PROJECT_ID}
+  - name: storageBucket
+    value: ${STORAGE_BUCKET}
+  - name: messagingSenderId
+    value: ${MESSAGING_SENDER_ID}
+  - name: appId
+    value: ${APP_ID}
+  - name: measurementId
+    value: ${MEASUREMENT_ID}
+  - name: foldername
+    value: ${FOLDER_NAME}
